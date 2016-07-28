@@ -27,10 +27,10 @@ class PinLocationViewController: UIViewController {
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         fetchRequest.sortDescriptors = []
         
-        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchResultsController.delegate = self
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
         
-        return fetchResultsController
+        return fetchedResultsController
     }()
 }
 
