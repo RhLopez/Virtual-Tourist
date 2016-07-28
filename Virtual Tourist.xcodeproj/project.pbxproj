@@ -16,6 +16,10 @@
 		DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */; };
 		DD5CFDBA1D49BB3F000FCDC4 /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDB91D49BB3F000FCDC4 /* PhotoCollectionViewController.swift */; };
 		DD5CFDC21D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC01D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld */; };
+		DD5CFDC71D49C18A000FCDC4 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC31D49C18A000FCDC4 /* Photo+CoreDataProperties.swift */; };
+		DD5CFDC81D49C18A000FCDC4 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC41D49C18A000FCDC4 /* Photo.swift */; };
+		DD5CFDC91D49C18A000FCDC4 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */; };
+		DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC61D49C18A000FCDC4 /* Pin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinLocationViewController.swift; sourceTree = "<group>"; };
 		DD5CFDB91D49BB3F000FCDC4 /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		DD5CFDC11D49BF3B000FCDC4 /* VirtualTourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist.xcdatamodel; sourceTree = "<group>"; };
+		DD5CFDC31D49C18A000FCDC4 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DD5CFDC41D49C18A000FCDC4 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DD5CFDC61D49C18A000FCDC4 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +150,10 @@
 		DD5CFDBF1D49BCF5000FCDC4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD5CFDC31D49C18A000FCDC4 /* Photo+CoreDataProperties.swift */,
+				DD5CFDC41D49C18A000FCDC4 /* Photo.swift */,
+				DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */,
+				DD5CFDC61D49C18A000FCDC4 /* Pin.swift */,
 				DD5CFDC01D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld */,
 			);
 			name = Model;
@@ -278,9 +290,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD5CFDC81D49C18A000FCDC4 /* Photo.swift in Sources */,
 				DD5CFDC21D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld in Sources */,
 				DD5CFD8A1D49B47C000FCDC4 /* AppDelegate.swift in Sources */,
+				DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */,
+				DD5CFDC91D49C18A000FCDC4 /* Pin+CoreDataProperties.swift in Sources */,
 				DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */,
+				DD5CFDC71D49C18A000FCDC4 /* Photo+CoreDataProperties.swift in Sources */,
 				DD5CFDBA1D49BB3F000FCDC4 /* PhotoCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
