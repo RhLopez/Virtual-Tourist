@@ -1,5 +1,5 @@
 //
-//  PinLocationViewController.swift
+//  PhotoCollectionViewController.swift
 //  Virtual Tourist
 //
 //  Created by Ramiro H. Lopez on 7/27/16.
@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import MapKit
 
-class PinLocationViewController: UIViewController {
+class PhotoCollectionViewContoller: UIViewController {
     
-    @IBOutlet weak var mapView: MKMapView!
 }
