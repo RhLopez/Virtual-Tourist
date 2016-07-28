@@ -14,6 +14,7 @@
 		DD5CFD941D49B47C000FCDC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD5CFD921D49B47C000FCDC4 /* LaunchScreen.storyboard */; };
 		DD5CFD9F1D49B47C000FCDC4 /* Virtual_TouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFD9E1D49B47C000FCDC4 /* Virtual_TouristTests.swift */; };
 		DD5CFDAA1D49B47C000FCDC4 /* Virtual_TouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDA91D49B47C000FCDC4 /* Virtual_TouristUITests.swift */; };
+		DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		DD5CFDA51D49B47C000FCDC4 /* Virtual TouristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TouristUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD5CFDA91D49B47C000FCDC4 /* Virtual_TouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristUITests.swift; sourceTree = "<group>"; };
 		DD5CFDAB1D49B47C000FCDC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinLocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				DD5CFD891D49B47C000FCDC4 /* AppDelegate.swift */,
+				DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */,
 				DD5CFD8B1D49B47C000FCDC4 /* ViewController.swift */,
 				DD5CFD8D1D49B47C000FCDC4 /* Main.storyboard */,
 				DD5CFD901D49B47C000FCDC4 /* Assets.xcassets */,
@@ -258,6 +261,7 @@
 			files = (
 				DD5CFD8C1D49B47C000FCDC4 /* ViewController.swift in Sources */,
 				DD5CFD8A1D49B47C000FCDC4 /* AppDelegate.swift in Sources */,
+				DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
