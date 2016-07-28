@@ -20,6 +20,7 @@
 		DD5CFDC81D49C18A000FCDC4 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC41D49C18A000FCDC4 /* Photo.swift */; };
 		DD5CFDC91D49C18A000FCDC4 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */; };
 		DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC61D49C18A000FCDC4 /* Pin.swift */; };
+		DD5CFDCC1D49C4A3000FCDC4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		DD5CFDC41D49C18A000FCDC4 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DD5CFDC61D49C18A000FCDC4 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		DD5CFDBF1D49BCF5000FCDC4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */,
 				DD5CFDC31D49C18A000FCDC4 /* Photo+CoreDataProperties.swift */,
 				DD5CFDC41D49C18A000FCDC4 /* Photo.swift */,
 				DD5CFDC51D49C18A000FCDC4 /* Pin+CoreDataProperties.swift */,
@@ -293,6 +296,7 @@
 				DD5CFDC81D49C18A000FCDC4 /* Photo.swift in Sources */,
 				DD5CFDC21D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld in Sources */,
 				DD5CFD8A1D49B47C000FCDC4 /* AppDelegate.swift in Sources */,
+				DD5CFDCC1D49C4A3000FCDC4 /* CoreDataStack.swift in Sources */,
 				DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */,
 				DD5CFDC91D49C18A000FCDC4 /* Pin+CoreDataProperties.swift in Sources */,
 				DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */,
