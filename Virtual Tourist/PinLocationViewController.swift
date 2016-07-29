@@ -16,10 +16,22 @@ class PinLocationViewController: UIViewController {
     
     let stack = CoreDataStack.sharedInstance
     
+    var mapSet = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
+        
+        // Set map region only when the view is first loaded
+        if !mapSet {
+            if let region = NSUserDefaults.standardUserDefaults().objectForKey("mapRegion") as? [String: Double] {
+                let center = CLLocationCoordinate2D(latitude: region["mapRegionCenterLatitude"]!, longitude: region["mapRegionCenterLongitude"]!)
+                let span = MKCoordinateSpan(latitudeDelta: region["mapSpanLatitudeDelta"]!, longitudeDelta: region["mapSpanLongitudeDelta"]!)
+                mapView.region = MKCoordinateRegion(center: center, span: span)
+                mapSet = true
+            }
+        }
     }
     
     // MARK: NSFetchedResultsController
@@ -35,7 +47,16 @@ class PinLocationViewController: UIViewController {
 }
 
 extension PinLocationViewController: MKMapViewDelegate {
-    
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let region = [
+            "mapRegionCenterLatitude": mapView.region.center.latitude,
+            "mapRegionCenterLongitude": mapView.region.center.longitude,
+            "mapSpanLatitudeDelta": mapView.region.span.latitudeDelta,
+            "mapSpanLongitudeDelta": mapView.region.span.longitudeDelta
+        ]
+        
+        NSUserDefaults.standardUserDefaults().setObject(region, forKey: "mapRegion")
+    }
 }
 
 extension PinLocationViewController: NSFetchedResultsControllerDelegate {

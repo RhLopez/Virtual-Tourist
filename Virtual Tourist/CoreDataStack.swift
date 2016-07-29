@@ -18,7 +18,7 @@ enum CoreDataStackNotifications : String{
 // MARK:  - Main
 struct CoreDataStack {
     
-    static let sharedInstance = CoreDataStack(modelName: "Model")!
+    static let sharedInstance = CoreDataStack(modelName: "VirtualTourist")!
     
     // MARK:  - Properties
     private let model : NSManagedObjectModel
