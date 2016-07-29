@@ -95,6 +95,22 @@ class PinLocationViewController: UIViewController {
 }
 
 extension PinLocationViewController: MKMapViewDelegate {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.animatesDrop = true
+        } else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let region = [
             "mapRegionCenterLatitude": mapView.region.center.latitude,
