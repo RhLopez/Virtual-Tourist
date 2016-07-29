@@ -32,6 +32,11 @@ class PinLocationViewController: UIViewController {
                 mapSet = true
             }
         }
+        
+        // UIGestureRecognizer to drop pin when user presses on map
+        let longpressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longpressRecognizer.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longpressRecognizer)
     }
     
     // MARK: NSFetchedResultsController
@@ -44,6 +49,19 @@ class PinLocationViewController: UIViewController {
         
         return fetchedResultsController
     }()
+    
+    func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state == .Began {
+            let touchPoint = gestureRecognizer.locationInView(mapView)
+            let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = touchMapCoordinate
+            _ = Pin(latitude: annotation.coordinate.latitude, longitutde: annotation.coordinate.longitude, context: stack.context)
+            mapView.addAnnotation(annotation)
+            stack.save()
+        }
+    }
 }
 
 extension PinLocationViewController: MKMapViewDelegate {
