@@ -37,6 +37,8 @@ class PinLocationViewController: UIViewController {
         let longpressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longpressRecognizer.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longpressRecognizer)
+        
+        processAnnotations()
     }
     
     // MARK: NSFetchedResultsController
@@ -60,6 +62,34 @@ class PinLocationViewController: UIViewController {
             _ = Pin(latitude: annotation.coordinate.latitude, longitutde: annotation.coordinate.longitude, context: stack.context)
             mapView.addAnnotation(annotation)
             stack.save()
+        }
+    }
+    
+    // TODO: Funcation name?
+    func processAnnotations() {
+        fetchPins()
+
+        var annotations = [MKPointAnnotation]()
+        
+        let pins = fetchedResultsController.fetchedObjects as? [Pin]
+        
+        if let pins = pins {
+            for pin in pins {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate.latitude = Double(pin.latitude)
+                annotation.coordinate.longitude = Double(pin.longitude)
+                annotations.append(annotation)
+            }
+            mapView.addAnnotations(annotations)
+        }
+    }
+    
+    func fetchPins() {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            // TODO: Change to alert
+            print("Unable to fetch")
         }
     }
 }
