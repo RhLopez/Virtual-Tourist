@@ -25,12 +25,7 @@ class PinLocationViewController: UIViewController {
         
         // Set map region only when the view is first loaded
         if !mapSet {
-            if let region = NSUserDefaults.standardUserDefaults().objectForKey("mapRegion") as? [String: Double] {
-                let center = CLLocationCoordinate2D(latitude: region["mapRegionCenterLatitude"]!, longitude: region["mapRegionCenterLongitude"]!)
-                let span = MKCoordinateSpan(latitudeDelta: region["mapSpanLatitudeDelta"]!, longitudeDelta: region["mapSpanLongitudeDelta"]!)
-                mapView.region = MKCoordinateRegion(center: center, span: span)
-                mapSet = true
-            }
+            setMapRegion()
         }
         
         // UIGestureRecognizer to drop pin when user presses on map
@@ -39,18 +34,17 @@ class PinLocationViewController: UIViewController {
         mapView.addGestureRecognizer(longpressRecognizer)
         
         processAnnotations()
+        
     }
     
-    // MARK: NSFetchedResultsController
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Pin")
-        fetchRequest.sortDescriptors = []
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        
-        return fetchedResultsController
-    }()
+    func setMapRegion() {
+        if let region = NSUserDefaults.standardUserDefaults().objectForKey("mapRegion") as? [String: Double] {
+            let center = CLLocationCoordinate2D(latitude: region["mapRegionCenterLatitude"]!, longitude: region["mapRegionCenterLongitude"]!)
+            let span = MKCoordinateSpan(latitudeDelta: region["mapSpanLatitudeDelta"]!, longitudeDelta: region["mapSpanLongitudeDelta"]!)
+            mapView.region = MKCoordinateRegion(center: center, span: span)
+            mapSet = true
+        }
+    }
     
     func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == .Began {
@@ -59,9 +53,10 @@ class PinLocationViewController: UIViewController {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = touchMapCoordinate
-            _ = Pin(latitude: annotation.coordinate.latitude, longitutde: annotation.coordinate.longitude, context: stack.context)
+            let pin = Pin(latitude: annotation.coordinate.latitude, longitutde: annotation.coordinate.longitude, context: stack.context)
             mapView.addAnnotation(annotation)
             stack.save()
+            startImageUrlRequest(pin)
         }
     }
     
@@ -92,6 +87,34 @@ class PinLocationViewController: UIViewController {
             print("Unable to fetch")
         }
     }
+    
+    func startImageUrlRequest(pin: Pin) {
+        FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
+            if sucess {
+                for urlString in results {
+                    let photo = Photo(imageURL: urlString, context: self.stack.context)
+                    photo.pin = pin
+                }
+                self.stack.save()
+                print(pin.photos?.count)
+            }
+            else {
+                // TODO: Change to Alert
+                print("There were no url strings")
+            }
+        }
+    }
+    
+    // MARK: NSFetchedResultsController
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        fetchRequest.sortDescriptors = []
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
 }
 
 extension PinLocationViewController: MKMapViewDelegate {
