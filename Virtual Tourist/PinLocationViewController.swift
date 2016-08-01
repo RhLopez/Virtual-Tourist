@@ -79,6 +79,24 @@ class PinLocationViewController: UIViewController {
         }
     }
     
+    func getPin(view: MKAnnotationView) -> Pin? {
+        var pin: Pin?
+        let annotation = view.annotation!
+        
+        fetchPins()
+        
+        let results = fetchedResultsController.fetchedObjects as? [Pin]
+        
+        for fetchedPin in results! {
+            if annotation.coordinate.latitude == fetchedPin.latitude && annotation.coordinate.longitude == fetchedPin.longitude {
+                pin = fetchedPin
+                break
+            }
+        }
+        
+        return pin
+    }
+    
     func fetchPins() {
         do {
             try fetchedResultsController.performFetch()
@@ -88,6 +106,7 @@ class PinLocationViewController: UIViewController {
         }
     }
     
+    // Get image urls to be used in PhotoCollectionViewController
     func startImageUrlRequest(pin: Pin) {
         FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
             if sucess {
@@ -117,6 +136,8 @@ class PinLocationViewController: UIViewController {
     }()
 }
 
+
+// MARK: MKMapViewDelegate
 extension PinLocationViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
@@ -133,6 +154,13 @@ extension PinLocationViewController: MKMapViewDelegate {
         return pinView
     }
     
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewContoller
+        
+        detailViewController.pin = getPin(view)
+        mapView.deselectAnnotation(view.annotation, animated: true)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let region = [
@@ -146,6 +174,7 @@ extension PinLocationViewController: MKMapViewDelegate {
     }
 }
 
+// MARK: NSFetchedResultsControllerDelegate
 extension PinLocationViewController: NSFetchedResultsControllerDelegate {
     
 }
