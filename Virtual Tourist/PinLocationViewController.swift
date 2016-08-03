@@ -34,7 +34,6 @@ class PinLocationViewController: UIViewController {
         mapView.addGestureRecognizer(longpressRecognizer)
         
         processAnnotations()
-        
     }
     
     func setMapRegion() {
@@ -110,12 +109,14 @@ class PinLocationViewController: UIViewController {
     func startImageUrlRequest(pin: Pin) {
         FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
             if sucess {
-                for urlString in results {
-                    let photo = Photo(imageURL: urlString, context: self.stack.context)
-                    photo.pin = pin
-                }
-                self.stack.save()
-                print(pin.photos?.count)
+                self.stack.context.performBlock({ 
+                    for urlString in results {
+                        let photo = Photo(imageURL: urlString, context: self.stack.context)
+                        photo.pin = pin
+                    }
+                    self.stack.save()
+                    print(pin.photos?.count)
+                })
             }
             else {
                 // TODO: Change to Alert

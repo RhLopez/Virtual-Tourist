@@ -18,12 +18,15 @@ class PhotoCollectionViewContoller: UIViewController {
     
     var pin: Pin!
     let stack = CoreDataStack.sharedInstance
+
+    var insertedIndexPaths: [NSIndexPath]!
+    var deletedIndexPaths: [NSIndexPath]!
+    var updatedIndexPaths: [NSIndexPath]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchPhotos()
         showPin()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -34,7 +37,7 @@ class PhotoCollectionViewContoller: UIViewController {
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 0.5
         
-        let width = self.photoCollectionView.frame.size.width / 3
+        let width = self.photoCollectionView.frame.size.width / 3.03
         layout.itemSize = CGSize(width: width, height: width)
         photoCollectionView.collectionViewLayout = layout
     }
@@ -58,6 +61,63 @@ class PhotoCollectionViewContoller: UIViewController {
         }
     }
     
+    func configureCell(cell: PhotoCollectionViewCell, indexPath: NSIndexPath) {
+        cell.imageView.image = UIImage(named: "placeholder")
+        cell.activityIndicator.startAnimating()
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+        if photo.photo == nil {
+                FlickrClient.sharedInstance.getImageFromURL(photo, completionHandlerForPhotoData: { (data) in
+                    if let data = data {
+                        self.stack.context.performBlock({
+                        photo.photo = data
+                        self.stack.save()
+                    })
+                    
+                    let image = UIImage(data: data)
+                    dispatch_async(dispatch_get_main_queue(), { 
+                        cell.imageView.image = image
+                        cell.activityIndicator.stopAnimating()
+                    })
+                }
+            })
+        } else {
+            let image = UIImage(data: photo.photo!)
+            cell.imageView.image = image
+            cell.activityIndicator.stopAnimating()
+        }
+    }
+    
+    @IBAction func newCollectionButtonPressed(sender: AnyObject) {
+        collectionButton.enabled = false
+        let photos = fetchedResultsController.fetchedObjects as! [Photo]
+        
+        for photo in photos {
+            fetchedResultsController.managedObjectContext.deleteObject(photo)
+        }
+        
+        print(pin.photos?.count)
+        
+        FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
+            if sucess {
+                for urlString in results {
+                    let photo = Photo(imageURL: urlString, context: self.stack.context)
+                    photo.pin = self.pin
+                }
+                self.stack.save()
+                print(self.pin.photos?.count)
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.collectionButton.enabled = true
+                })
+                
+            }
+            else {
+                // TODO: Change to Alert
+                print("There were no url strings")
+            }
+        }
+    }
+    
+    
     // MARK: NSFetchedResultsController
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
@@ -72,7 +132,63 @@ class PhotoCollectionViewContoller: UIViewController {
     }()
 }
 
+// MARK: UICollectionViewDataSource
+extension PhotoCollectionViewContoller: UICollectionViewDataSource {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return fetchedResultsController.sections![section].numberOfObjects
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
+        
+        configureCell(cell, indexPath: indexPath)
+        
+        return cell
+    }
+}
+
 // MARK: NSFetechedResultsControllerDelegate
 extension PhotoCollectionViewContoller: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        insertedIndexPaths = [NSIndexPath]()
+        deletedIndexPaths = [NSIndexPath]()
+        updatedIndexPaths = [NSIndexPath]()
+    }
     
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        switch type {
+        case .Insert:
+            insertedIndexPaths.append(newIndexPath!)
+            break
+        case .Delete:
+            deletedIndexPaths.append(indexPath!)
+            break
+        case .Update:
+            updatedIndexPaths.append(indexPath!)
+            break
+        default:
+            break
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        photoCollectionView.performBatchUpdates({ 
+            for indexPath in self.insertedIndexPaths {
+                self.photoCollectionView.insertItemsAtIndexPaths([indexPath])
+            }
+            
+            for indexPath in self.deletedIndexPaths {
+                self.photoCollectionView.deleteItemsAtIndexPaths([indexPath])
+            }
+            
+            for indexPath in self.updatedIndexPaths {
+                self.photoCollectionView.reloadItemsAtIndexPaths([indexPath])
+            }
+            }, completion: nil)
+    }
 }
+

@@ -141,6 +141,29 @@ extension FlickrClient {
             completionHandlerForRandomURL(sucess: false, results: nil)
         }
     }
+    
+    func getImageFromURL(photo: Photo, completionHandlerForPhotoData: (data: NSData?) -> Void) {
+        let url = photo.imageURL
+        let request = NSURLRequest(URL: NSURL(string: url)!)
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            guard (error == nil) else {
+                print(error?.localizedDescription)
+                print("NO PHOTO")
+                return
+            }
+            
+            guard let data = data else {
+                print("no data")
+                return
+            }
+            
+            completionHandlerForPhotoData(data: data)
+        }
+        
+        task.resume()
+    }
 }
 
 

@@ -41,7 +41,7 @@
         <!--Photo Collection View Contoller-->
         <scene sceneID="Avi-o9-CKK">
             <objects>
-                <viewController storyboardIdentifier="PhotoCollectionViewController" id="cXK-z4-H3f" customClass="PhotoCollectionViewContoller" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoCollectionViewController" automaticallyAdjustsScrollViewInsets="NO" id="cXK-z4-H3f" customClass="PhotoCollectionViewContoller" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SGE-2X-WV1"/>
                         <viewControllerLayoutGuide type="bottom" id="ZOI-Lu-s4Q"/>
@@ -51,44 +51,64 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FXP-t7-pEM">
-                                <rect key="frame" x="0.0" y="224" width="600" height="325"/>
-                                <color key="backgroundColor" red="1" green="0.26504634108555836" blue="0.18690958435189964" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nxJ-yY-qvM">
+                                <rect key="frame" x="0.0" y="225" width="600" height="325"/>
+                                <color key="backgroundColor" red="0.99885817310000002" green="0.99885817310000002" blue="0.99885817310000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="nxJ-yY-qvM">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="nZg-YD-etR">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="nZg-YD-etR" customClass="PhotoCollectionViewCell" customModule="Virtual_Tourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bG4-So-00r">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bG4-So-00r">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-Bz-UgY">
+                                                    <rect key="frame" x="7" y="6" width="37" height="37"/>
+                                                    <color key="color" red="0.99885817310000002" green="0.99885817310000002" blue="0.99885817310000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="JFU-Bz-UgY" secondAttribute="trailing" constant="6" id="383-F7-jvS"/>
                                             <constraint firstAttribute="bottom" secondItem="bG4-So-00r" secondAttribute="bottom" id="Fih-lv-6Ex"/>
                                             <constraint firstAttribute="trailing" secondItem="bG4-So-00r" secondAttribute="trailing" id="ObC-by-Oti"/>
                                             <constraint firstItem="bG4-So-00r" firstAttribute="leading" secondItem="nZg-YD-etR" secondAttribute="leading" id="Slm-n0-1av"/>
                                             <constraint firstItem="bG4-So-00r" firstAttribute="top" secondItem="nZg-YD-etR" secondAttribute="top" id="UJB-rD-Bks"/>
+                                            <constraint firstAttribute="bottom" secondItem="JFU-Bz-UgY" secondAttribute="bottom" constant="7" id="hYK-zm-MTK"/>
+                                            <constraint firstItem="JFU-Bz-UgY" firstAttribute="leading" secondItem="nZg-YD-etR" secondAttribute="leading" constant="7" id="o8d-uR-XGU"/>
+                                            <constraint firstItem="JFU-Bz-UgY" firstAttribute="top" secondItem="nZg-YD-etR" secondAttribute="top" constant="6" id="t1e-0F-aA0"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="JFU-Bz-UgY" id="IzF-pB-FZ9"/>
+                                            <outlet property="imageView" destination="bG4-So-00r" id="2zF-l0-a6i"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="cXK-z4-H3f" id="thn-QK-Xcf"/>
+                                    <outlet property="delegate" destination="cXK-z4-H3f" id="2bT-1L-XmR"/>
+                                </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I80-ZE-xwy">
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="cYg-3i-bCN"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="New Collection"/>
+                                <connections>
+                                    <action selector="newCollectionButtonPressed:" destination="cXK-z4-H3f" eventType="touchUpInside" id="yDH-BM-env"/>
+                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ntK-aX-vFH">
                                 <rect key="frame" x="0.0" y="16" width="600" height="44"/>
@@ -97,25 +117,25 @@
                                 </items>
                             </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="M4c-uK-Qgi">
-                                <rect key="frame" x="0.0" y="60" width="600" height="167"/>
+                                <rect key="frame" x="0.0" y="60" width="600" height="164"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="167" id="4VD-4M-91q"/>
+                                    <constraint firstAttribute="height" constant="164" id="4VD-4M-91q"/>
                                 </constraints>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FXP-t7-pEM" firstAttribute="top" secondItem="M4c-uK-Qgi" secondAttribute="bottom" constant="-3" id="51k-U0-d1e"/>
+                            <constraint firstItem="FXP-t7-pEM" firstAttribute="top" secondItem="M4c-uK-Qgi" secondAttribute="bottom" constant="1" id="51k-U0-d1e"/>
                             <constraint firstItem="I80-ZE-xwy" firstAttribute="leading" secondItem="uZT-Cv-mYd" secondAttribute="leading" id="7CV-dL-Pby"/>
                             <constraint firstAttribute="trailing" secondItem="FXP-t7-pEM" secondAttribute="trailing" id="Bh5-uu-92R"/>
-                            <constraint firstItem="FXP-t7-pEM" firstAttribute="top" secondItem="M4c-uK-Qgi" secondAttribute="bottom" constant="-3" id="Lo9-Uf-G20"/>
+                            <constraint firstItem="FXP-t7-pEM" firstAttribute="top" secondItem="M4c-uK-Qgi" secondAttribute="bottom" constant="1" id="Lo9-Uf-G20"/>
                             <constraint firstItem="FXP-t7-pEM" firstAttribute="leading" secondItem="uZT-Cv-mYd" secondAttribute="leading" id="RFx-r6-UQH"/>
                             <constraint firstItem="M4c-uK-Qgi" firstAttribute="leading" secondItem="uZT-Cv-mYd" secondAttribute="leading" id="U8s-EQ-lhH"/>
-                            <constraint firstItem="I80-ZE-xwy" firstAttribute="top" secondItem="FXP-t7-pEM" secondAttribute="bottom" constant="2" id="dTr-9J-Imp"/>
+                            <constraint firstItem="I80-ZE-xwy" firstAttribute="top" secondItem="FXP-t7-pEM" secondAttribute="bottom" constant="1" id="dTr-9J-Imp"/>
                             <constraint firstAttribute="trailing" secondItem="I80-ZE-xwy" secondAttribute="trailing" id="gLE-Fk-Uh4"/>
                             <constraint firstItem="ZOI-Lu-s4Q" firstAttribute="top" secondItem="I80-ZE-xwy" secondAttribute="bottom" id="hdE-lu-nVv"/>
                             <constraint firstAttribute="trailing" secondItem="M4c-uK-Qgi" secondAttribute="trailing" id="jED-vj-UpG"/>
-                            <constraint firstItem="I80-ZE-xwy" firstAttribute="top" secondItem="FXP-t7-pEM" secondAttribute="bottom" constant="2" id="lmE-Rb-GqR"/>
+                            <constraint firstItem="I80-ZE-xwy" firstAttribute="top" secondItem="FXP-t7-pEM" secondAttribute="bottom" constant="1" id="lmE-Rb-GqR"/>
                             <constraint firstItem="M4c-uK-Qgi" firstAttribute="top" secondItem="uZT-Cv-mYd" secondAttribute="top" constant="60" id="u3B-qU-ZVy"/>
                         </constraints>
                     </view>
