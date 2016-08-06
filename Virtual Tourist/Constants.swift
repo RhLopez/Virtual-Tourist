@@ -27,6 +27,7 @@ extension FlickrClient {
             static let Format = "format"
             static let NoJSONCallBack = "nojsoncallback"
             static let Extras = "extras"
+            static let PerPage = "per_page"
             static let Page = "page"
         }
         
@@ -38,6 +39,7 @@ extension FlickrClient {
             static let JSONFormat = "json"
             static let DisableJSONCallback = "1"
             static let MediumURL = "url_m"
+            static let PerPageLimit = 21
         }
     }
 }

@@ -18,8 +18,16 @@ class PinLocationViewController: UIViewController {
     
     var mapSet = false
     
+    var maxPageNumber: Int?
+    var editMode: Bool?
+    @IBOutlet weak var mapEditLabel: UILabel!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var mapEditLabelBottomConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        editMode = false
         
         mapView.delegate = self
         
@@ -34,6 +42,11 @@ class PinLocationViewController: UIViewController {
         mapView.addGestureRecognizer(longpressRecognizer)
         
         processAnnotations()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
     }
     
     func setMapRegion() {
@@ -107,7 +120,7 @@ class PinLocationViewController: UIViewController {
     
     // Get image urls to be used in PhotoCollectionViewController
     func startImageUrlRequest(pin: Pin) {
-        FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
+        FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results, maxPageNumber) in
             if sucess {
                 self.stack.context.performBlock({ 
                     for urlString in results {
@@ -117,12 +130,33 @@ class PinLocationViewController: UIViewController {
                     self.stack.save()
                     print(pin.photos?.count)
                 })
+                self.maxPageNumber = maxPageNumber
             }
             else {
                 // TODO: Change to Alert
                 print("There were no url strings")
             }
         }
+    }
+    
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        if editMode == false {
+            UIView.animateWithDuration(0.25, animations: {
+                self.mapView.frame.origin.y = (self.getLabelHeight() * -1)
+            })
+            editButton.title = "Done"
+            editMode = true
+        } else {
+            UIView.animateWithDuration(0.25, animations: {
+                self.mapView.frame.origin.y = 0
+            })
+            editMode = false
+            editButton.title = "Edit"
+        }
+    }
+    
+    func getLabelHeight() -> CGFloat {
+        return mapEditLabel.frame.height
     }
     
     // MARK: NSFetchedResultsController
@@ -156,11 +190,18 @@ extension PinLocationViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewContoller
-        
-        detailViewController.pin = getPin(view)
-        mapView.deselectAnnotation(view.annotation, animated: true)
-        navigationController?.pushViewController(detailViewController, animated: true)
+        if editMode == true {
+            stack.context.deleteObject(getPin(view)!)
+            self.mapView.removeAnnotation(view.annotation!)
+            stack.save()
+        } else {
+            let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewContoller
+            
+            detailViewController.pin = getPin(view)
+            detailViewController.maxPageNumber = maxPageNumber
+            mapView.deselectAnnotation(view.annotation, animated: true)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
     }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

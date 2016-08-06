@@ -23,6 +23,8 @@ class PhotoCollectionViewContoller: UIViewController {
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
     
+    var maxPageNumber: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchPhotos()
@@ -95,20 +97,23 @@ class PhotoCollectionViewContoller: UIViewController {
             fetchedResultsController.managedObjectContext.deleteObject(photo)
         }
         
-        print(pin.photos?.count)
-        
-        FlickrClient.sharedInstance.startImageUrlRequest(pin) { (sucess, results) in
+        if maxPageNumber == nil {
+            maxPageNumber = 1
+        }
+
+        FlickrClient.sharedInstance.imageURLRequestWithPage(pin, maxPageNumber: maxPageNumber) { (sucess, results, maxPageNumber) in
             if sucess {
-                for urlString in results {
-                    let photo = Photo(imageURL: urlString, context: self.stack.context)
-                    photo.pin = self.pin
-                }
-                self.stack.save()
-                print(self.pin.photos?.count)
-                dispatch_async(dispatch_get_main_queue(), { 
+                self.stack.context.performBlock({ 
+                    for urlString in results {
+                        let photo = Photo(imageURL: urlString, context: self.stack.context)
+                        photo.pin = self.pin
+                    }
+                    self.stack.save()
+                })
+                dispatch_async(dispatch_get_main_queue(), {
                     self.collectionButton.enabled = true
                 })
-                
+                self.maxPageNumber = maxPageNumber
             }
             else {
                 // TODO: Change to Alert

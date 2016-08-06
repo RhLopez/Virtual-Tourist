@@ -14,7 +14,7 @@ class FlickrClient: NSObject {
     
     let session = NSURLSession.sharedSession()
     
-    func taskForGetMethod(parameters: [String:AnyObject], completionHandlerForGetMethod: (sucess: Bool, data: AnyObject!) -> Void) {
+    func taskForGetMethod(parameters: [String:AnyObject], completionHandlerForGetMethod: (success: Bool, data: AnyObject!) -> Void) {
         let request = NSURLRequest(URL: flickURL(parameters))
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -32,7 +32,6 @@ class FlickrClient: NSObject {
                 print("Data problem")
                 return
             }
-            
             self.seriliazeData(data, completionHandlerForSerialization: completionHandlerForGetMethod)
         }
         
@@ -63,6 +62,7 @@ class FlickrClient: NSObject {
             compoments.queryItems!.append(queryItem)
         }
         
+        print(compoments.URL!)
         return compoments.URL!
     }
 }

@@ -17,20 +17,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pin to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Njt-87-hmQ">
+                                <rect key="frame" x="0.0" y="535" width="600" height="65"/>
+                                <color key="backgroundColor" red="1" green="0.26504634110000003" blue="0.1869095844" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="TzI-QA-XKI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.99885817310000002" green="0.99885817310000002" blue="0.99885817310000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uNF-Ir-ubn">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Njt-87-hmQ" firstAttribute="leading" secondItem="ToV-RY-3HA" secondAttribute="leading" id="PUb-ms-gAa"/>
                             <constraint firstItem="uNF-Ir-ubn" firstAttribute="bottom" secondItem="P3A-WR-uvU" secondAttribute="top" id="Puk-Pm-jSD"/>
                             <constraint firstAttribute="trailing" secondItem="uNF-Ir-ubn" secondAttribute="trailing" id="SvV-tJ-oPF"/>
                             <constraint firstItem="uNF-Ir-ubn" firstAttribute="top" secondItem="ToV-RY-3HA" secondAttribute="top" id="iDD-su-8wm"/>
                             <constraint firstItem="uNF-Ir-ubn" firstAttribute="leading" secondItem="ToV-RY-3HA" secondAttribute="leading" id="kMu-hw-fiW"/>
+                            <constraint firstItem="P3A-WR-uvU" firstAttribute="top" secondItem="Njt-87-hmQ" secondAttribute="bottom" id="lxm-iV-MjN"/>
+                            <constraint firstAttribute="trailing" secondItem="Njt-87-hmQ" secondAttribute="trailing" id="sin-yF-Fyb"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="kTI-Sy-VMv"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="kTI-Sy-VMv">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="R29-p7-CaZ">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="Cjy-50-sKX" id="nPa-2o-rhf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="R29-p7-CaZ" id="OW7-iD-vcc"/>
+                        <outlet property="mapEditLabel" destination="Njt-87-hmQ" id="HXq-jQ-cyk"/>
+                        <outlet property="mapEditLabelBottomConstraint" destination="lxm-iV-MjN" id="od3-1a-EqU"/>
                         <outlet property="mapView" destination="uNF-Ir-ubn" id="sag-iW-t1M"/>
                     </connections>
                 </viewController>
