@@ -19,6 +19,7 @@ class PhotoCollectionViewContoller: UIViewController {
     var pin: Pin!
     let stack = CoreDataStack.sharedInstance
 
+    var selectedIndexes = [NSIndexPath]()
     var insertedIndexPaths: [NSIndexPath]!
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
@@ -39,6 +40,7 @@ class PhotoCollectionViewContoller: UIViewController {
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 0.5
         
+        // TODO: Fix cell sizing
         let width = self.photoCollectionView.frame.size.width / 3.03
         layout.itemSize = CGSize(width: width, height: width)
         photoCollectionView.collectionViewLayout = layout
@@ -87,39 +89,74 @@ class PhotoCollectionViewContoller: UIViewController {
             cell.imageView.image = image
             cell.activityIndicator.stopAnimating()
         }
+        
+        if selectedIndexes.indexOf(indexPath) != nil {
+            cell.imageView.alpha = 0.5
+        } else {
+            cell.imageView.alpha = 1.0
+        }
+    }
+    
+    func updateButton() {
+        if selectedIndexes.isEmpty {
+            collectionButton.setTitle("New Collection", forState: .Normal)
+        } else {
+            collectionButton.setTitle("Remove Selected Photos", forState: .Normal)
+        }
+    }
+    
+    func deleteSelectedPhotos() {
+        var photoToDelete = [Photo]()
+        
+        for indexPath in selectedIndexes {
+            photoToDelete.append(fetchedResultsController.objectAtIndexPath(indexPath) as! Photo)
+        }
+        
+        for photo in photoToDelete {
+            stack.context.deleteObject(photo)
+        }
+        
+        stack.save()
+        selectedIndexes = [NSIndexPath]()
     }
     
     @IBAction func newCollectionButtonPressed(sender: AnyObject) {
-        collectionButton.enabled = false
-        let photos = fetchedResultsController.fetchedObjects as! [Photo]
-        
-        for photo in photos {
-            fetchedResultsController.managedObjectContext.deleteObject(photo)
-        }
-        
-        if maxPageNumber == nil {
-            maxPageNumber = 1
-        }
+        if selectedIndexes.isEmpty {
+            collectionButton.enabled = false
+            let photos = fetchedResultsController.fetchedObjects as! [Photo]
+            
+            for photo in photos {
+                fetchedResultsController.managedObjectContext.deleteObject(photo)
+            }
+            
+            if maxPageNumber == nil {
+                maxPageNumber = 1
+            }
 
-        FlickrClient.sharedInstance.imageURLRequestWithPage(pin, maxPageNumber: maxPageNumber) { (sucess, results, maxPageNumber) in
-            if sucess {
-                self.stack.context.performBlock({ 
-                    for urlString in results {
-                        let photo = Photo(imageURL: urlString, context: self.stack.context)
-                        photo.pin = self.pin
-                    }
-                    self.stack.save()
-                })
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionButton.enabled = true
-                })
-                self.maxPageNumber = maxPageNumber
+            FlickrClient.sharedInstance.imageURLRequestWithPage(pin, maxPageNumber: maxPageNumber) { (sucess, results, maxPageNumber) in
+                if sucess {
+                    self.stack.context.performBlock({ 
+                        for urlString in results {
+                            let photo = Photo(imageURL: urlString, context: self.stack.context)
+                            photo.pin = self.pin
+                        }
+                        self.stack.save()
+                    })
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.collectionButton.enabled = true
+                    })
+                    self.maxPageNumber = maxPageNumber
+                }
+                else {
+                    // TODO: Change to Alert
+                    print("There were no url strings")
+                }
             }
-            else {
-                // TODO: Change to Alert
-                print("There were no url strings")
-            }
+        } else {
+            deleteSelectedPhotos()
         }
+        
+        updateButton()
     }
     
     
@@ -136,6 +173,23 @@ class PhotoCollectionViewContoller: UIViewController {
         return fetchedResultsController
     }()
 }
+
+// MARK: UICollectionViewDelegate
+extension PhotoCollectionViewContoller: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = photoCollectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        if let index = selectedIndexes.indexOf(indexPath) {
+            selectedIndexes.removeAtIndex(index)
+        } else {
+            selectedIndexes.append(indexPath)
+        }
+        
+        configureCell(cell, indexPath: indexPath)
+        updateButton()
+    }
+}
+
 
 // MARK: UICollectionViewDataSource
 extension PhotoCollectionViewContoller: UICollectionViewDataSource {
