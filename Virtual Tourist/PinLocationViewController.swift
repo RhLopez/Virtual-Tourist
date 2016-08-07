@@ -13,6 +13,9 @@ import CoreData
 class PinLocationViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapEditLabel: UILabel!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var mapEditLabelBottomConstraint: NSLayoutConstraint!
     
     let stack = CoreDataStack.sharedInstance
     
@@ -20,10 +23,8 @@ class PinLocationViewController: UIViewController {
     
     var maxPageNumber: Int?
     var editMode: Bool?
-    @IBOutlet weak var mapEditLabel: UILabel!
-    @IBOutlet weak var editButton: UIBarButtonItem!
-    @IBOutlet weak var mapEditLabelBottomConstraint: NSLayoutConstraint!
     
+    // MARK: UIViewController Lifecyle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,10 +37,7 @@ class PinLocationViewController: UIViewController {
             setMapRegion()
         }
         
-        // UIGestureRecognizer to drop pin when user presses on map
-        let longpressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longpressRecognizer.minimumPressDuration = 0.5
-        mapView.addGestureRecognizer(longpressRecognizer)
+        registerGestureRecognizer()
         
         processAnnotations()
     }
@@ -49,6 +47,7 @@ class PinLocationViewController: UIViewController {
         
     }
     
+    // Set map to coordinates previously used before user exited application
     func setMapRegion() {
         if let region = NSUserDefaults.standardUserDefaults().objectForKey("mapRegion") as? [String: Double] {
             let center = CLLocationCoordinate2D(latitude: region["mapRegionCenterLatitude"]!, longitude: region["mapRegionCenterLongitude"]!)
@@ -58,6 +57,14 @@ class PinLocationViewController: UIViewController {
         }
     }
     
+    // UIGestureRecognizer to drop pin when user presses on map
+    func registerGestureRecognizer() {
+        let longpressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longpressRecognizer.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longpressRecognizer)
+    }
+    
+    // Process pin drop when user presses on map
     func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == .Began {
             let touchPoint = gestureRecognizer.locationInView(mapView)
@@ -72,34 +79,29 @@ class PinLocationViewController: UIViewController {
         }
     }
     
-    // TODO: Funcation name?
+    // Show annotations that user has placed on map
     func processAnnotations() {
-        fetchPins()
-
         var annotations = [MKPointAnnotation]()
         
-        let pins = fetchedResultsController.fetchedObjects as? [Pin]
-        
-        if let pins = pins {
-            for pin in pins {
-                let annotation = MKPointAnnotation()
-                annotation.coordinate.latitude = Double(pin.latitude)
-                annotation.coordinate.longitude = Double(pin.longitude)
-                annotations.append(annotation)
-            }
-            mapView.addAnnotations(annotations)
+        let pins = fetchPins()
+    
+        for pin in pins {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate.latitude = Double(pin.latitude)
+            annotation.coordinate.longitude = Double(pin.longitude)
+            annotations.append(annotation)
         }
+        
+        mapView.addAnnotations(annotations)
     }
     
     func getPin(view: MKAnnotationView) -> Pin? {
         var pin: Pin?
         let annotation = view.annotation!
         
-        fetchPins()
+        let results = fetchPins()
         
-        let results = fetchedResultsController.fetchedObjects as? [Pin]
-        
-        for fetchedPin in results! {
+        for fetchedPin in results {
             if annotation.coordinate.latitude == fetchedPin.latitude && annotation.coordinate.longitude == fetchedPin.longitude {
                 pin = fetchedPin
                 break
@@ -107,15 +109,6 @@ class PinLocationViewController: UIViewController {
         }
         
         return pin
-    }
-    
-    func fetchPins() {
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            // TODO: Change to alert
-            print("Unable to fetch")
-        }
     }
     
     // Get image urls to be used in PhotoCollectionViewController
@@ -128,13 +121,11 @@ class PinLocationViewController: UIViewController {
                         photo.pin = pin
                     }
                     self.stack.save()
-                    print(pin.photos?.count)
                 })
                 self.maxPageNumber = maxPageNumber
             }
             else {
-                // TODO: Change to Alert
-                print("There were no url strings")
+                AlertView.showAlert(self, title: "Alert", message: "Unable to process Photo request.\nPlease try again.")
             }
         }
     }
@@ -159,18 +150,22 @@ class PinLocationViewController: UIViewController {
         return mapEditLabel.frame.height
     }
     
-    // MARK: NSFetchedResultsController
-    lazy var fetchedResultsController: NSFetchedResultsController = {
+    
+    // MARK: NSFetchesRequest
+    func fetchPins() -> [Pin] {
+        var pins = [Pin]()
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         fetchRequest.sortDescriptors = []
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+        do {
+            try pins = stack.context.executeFetchRequest(fetchRequest) as! [Pin]
+        } catch {
+            AlertView.showAlert(self, title: "Alert", message: "Unable to retrieve pin information")
+        }
         
-        return fetchedResultsController
-    }()
+        return pins
+    }
 }
-
 
 // MARK: MKMapViewDelegate
 extension PinLocationViewController: MKMapViewDelegate {
@@ -214,9 +209,4 @@ extension PinLocationViewController: MKMapViewDelegate {
         
         NSUserDefaults.standardUserDefaults().setObject(region, forKey: "mapRegion")
     }
-}
-
-// MARK: NSFetchedResultsControllerDelegate
-extension PinLocationViewController: NSFetchedResultsControllerDelegate {
-    
 }

@@ -44,8 +44,6 @@ extension FlickrClient {
         } else {
             randomPage = maxPageNumber
         }
-        print(maxPageNumber)
-        print(randomPage)
         
         let parameters = [
             Constants.ParameterKeys.Method: Constants.ParameterValues.SearchMethod,
@@ -90,7 +88,6 @@ extension FlickrClient {
                             completionHandlerForMaxPageNumber(success: false, maxPageNumber: nil)
                             return
                         }
-                        print(maxPageNumber)
                         completionHandlerForMaxPageNumber(success: true, maxPageNumber: maxPageNumber)
                     } else {
                         completionHandlerForMaxPageNumber(success: false, maxPageNumber: nil)

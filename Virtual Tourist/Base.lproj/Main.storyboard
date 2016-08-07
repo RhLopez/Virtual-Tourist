@@ -73,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FXP-t7-pEM">
-                                <rect key="frame" x="0.0" y="225" width="600" height="325"/>
+                                <rect key="frame" x="0.0" y="225" width="600" height="318"/>
                                 <color key="backgroundColor" red="0.99885817310000002" green="0.99885817310000002" blue="0.99885817310000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="nxJ-yY-qvM">
                                     <size key="itemSize" width="50" height="50"/>
@@ -122,9 +122,9 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I80-ZE-xwy">
-                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
+                                <rect key="frame" x="0.0" y="544" width="600" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="cYg-3i-bCN"/>
+                                    <constraint firstAttribute="height" constant="56" id="cYg-3i-bCN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="New Collection"/>

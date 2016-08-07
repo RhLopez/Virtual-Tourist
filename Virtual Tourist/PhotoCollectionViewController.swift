@@ -60,8 +60,7 @@ class PhotoCollectionViewContoller: UIViewController {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            // TODO: Change to alert
-            print("Unable to fetch photos")
+            AlertView.showAlert(self, title: "Alert", message: "Unable to retrieve Photos\nPlease try again.")
         }
     }
     
@@ -142,14 +141,13 @@ class PhotoCollectionViewContoller: UIViewController {
                         }
                         self.stack.save()
                     })
-                    dispatch_async(dispatch_get_main_queue(), {
+                    dispatch_async(dispatch_get_main_queue(), { 
                         self.collectionButton.enabled = true
                     })
                     self.maxPageNumber = maxPageNumber
                 }
                 else {
-                    // TODO: Change to Alert
-                    print("There were no url strings")
+                    AlertView.showAlert(self, title: "Alert", message: "Unable to process request for photos\nPlease try again.")
                 }
             }
         } else {

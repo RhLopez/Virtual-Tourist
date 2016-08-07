@@ -25,6 +25,7 @@
 		DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDC61D49C18A000FCDC4 /* Pin.swift */; };
 		DD5CFDCC1D49C4A3000FCDC4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */; };
 		DD6205BE1D4F15D000CE410C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6205BD1D4F15CF00CE410C /* PhotoCollectionViewCell.swift */; };
+		DDE01FD31D5708B200B124E8 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE01FD21D5708B200B124E8 /* AlertView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		DD5CFDC61D49C18A000FCDC4 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		DD6205BD1D4F15CF00CE410C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		DDE01FD21D5708B200B124E8 /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertView.swift; path = ../AlertView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				DD5CFDBF1D49BCF5000FCDC4 /* Model */,
 				DD5CFDBB1D49BB67000FCDC4 /* Controller */,
 				DD5CFD891D49B47C000FCDC4 /* AppDelegate.swift */,
+				DDE01FD21D5708B200B124E8 /* AlertView.swift */,
 				DD5CFD8D1D49B47C000FCDC4 /* Main.storyboard */,
 				DD5CFD901D49B47C000FCDC4 /* Assets.xcassets */,
 				DD5CFD921D49B47C000FCDC4 /* LaunchScreen.storyboard */,
@@ -315,6 +318,7 @@
 				DD5CFDCC1D49C4A3000FCDC4 /* CoreDataStack.swift in Sources */,
 				DD5CFDCA1D49C18A000FCDC4 /* Pin.swift in Sources */,
 				DD5CFDC91D49C18A000FCDC4 /* Pin+CoreDataProperties.swift in Sources */,
+				DDE01FD31D5708B200B124E8 /* AlertView.swift in Sources */,
 				DD5CFDB81D49B686000FCDC4 /* PinLocationViewController.swift in Sources */,
 				DD5CFDC71D49C18A000FCDC4 /* Photo+CoreDataProperties.swift in Sources */,
 				DD494F361D4C7586002D618C /* FlickrConvinience.swift in Sources */,
