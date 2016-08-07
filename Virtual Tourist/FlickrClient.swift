@@ -62,7 +62,6 @@ class FlickrClient: NSObject {
             compoments.queryItems!.append(queryItem)
         }
         
-        print(compoments.URL!)
         return compoments.URL!
     }
 }

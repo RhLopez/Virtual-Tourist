@@ -123,8 +123,9 @@
 			children = (
 				DD5CFDBF1D49BCF5000FCDC4 /* Model */,
 				DD5CFDBB1D49BB67000FCDC4 /* Controller */,
+				DDEF18E81D57A23000C4748E /* View */,
+				DDEF18E91D57A23700C4748E /* Utility */,
 				DD5CFD891D49B47C000FCDC4 /* AppDelegate.swift */,
-				DDE01FD21D5708B200B124E8 /* AlertView.swift */,
 				DD5CFD8D1D49B47C000FCDC4 /* Main.storyboard */,
 				DD5CFD901D49B47C000FCDC4 /* Assets.xcassets */,
 				DD5CFD921D49B47C000FCDC4 /* LaunchScreen.storyboard */,
@@ -156,7 +157,6 @@
 			children = (
 				DD5CFDB71D49B686000FCDC4 /* PinLocationViewController.swift */,
 				DD5CFDB91D49BB3F000FCDC4 /* PhotoCollectionViewController.swift */,
-				DD6205BD1D4F15CF00CE410C /* PhotoCollectionViewCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -164,9 +164,25 @@
 		DD5CFDBF1D49BCF5000FCDC4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DDEF18E61D57A13C00C4748E /* FlickrClient */,
+				DDEF18E71D57A16200C4748E /* Core data */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DDEF18E61D57A13C00C4748E /* FlickrClient */ = {
+			isa = PBXGroup;
+			children = (
 				DD25298F1D4C55370084256A /* FlickrClient.swift */,
 				DD494F351D4C7586002D618C /* FlickrConvinience.swift */,
 				DD2529911D4C564A0084256A /* Constants.swift */,
+			);
+			name = FlickrClient;
+			sourceTree = "<group>";
+		};
+		DDEF18E71D57A16200C4748E /* Core data */ = {
+			isa = PBXGroup;
+			children = (
 				DD5CFDCB1D49C4A3000FCDC4 /* CoreDataStack.swift */,
 				DD5CFDC31D49C18A000FCDC4 /* Photo+CoreDataProperties.swift */,
 				DD5CFDC41D49C18A000FCDC4 /* Photo.swift */,
@@ -174,7 +190,23 @@
 				DD5CFDC61D49C18A000FCDC4 /* Pin.swift */,
 				DD5CFDC01D49BF3B000FCDC4 /* VirtualTourist.xcdatamodeld */,
 			);
-			name = Model;
+			name = "Core data";
+			sourceTree = "<group>";
+		};
+		DDEF18E81D57A23000C4748E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DD6205BD1D4F15CF00CE410C /* PhotoCollectionViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		DDEF18E91D57A23700C4748E /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				DDE01FD21D5708B200B124E8 /* AlertView.swift */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

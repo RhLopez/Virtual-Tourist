@@ -29,7 +29,6 @@ class PinLocationViewController: UIViewController {
         super.viewDidLoad()
         
         editMode = false
-        
         mapView.delegate = self
         
         // Set map region only when the view is first loaded
@@ -38,7 +37,6 @@ class PinLocationViewController: UIViewController {
         }
         
         registerGestureRecognizer()
-        
         processAnnotations()
     }
     
@@ -167,8 +165,8 @@ class PinLocationViewController: UIViewController {
     }
 }
 
-// MARK: MKMapViewDelegate
 extension PinLocationViewController: MKMapViewDelegate {
+    // MARK: MKMapViewDelegate
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
         

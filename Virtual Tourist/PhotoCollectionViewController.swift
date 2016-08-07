@@ -16,6 +16,8 @@ class PhotoCollectionViewContoller: UIViewController {
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var collectionButton: UIButton!
     
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
     var pin: Pin!
     let stack = CoreDataStack.sharedInstance
 
@@ -26,24 +28,18 @@ class PhotoCollectionViewContoller: UIViewController {
     
     var maxPageNumber: Int?
     
+    // MARK: UIViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchPhotos()
         showPin()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+        fetchPhotos()
         
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
-        layout.minimumLineSpacing = 1
-        layout.minimumInteritemSpacing = 0.5
-        
-        // TODO: Fix cell sizing
-        let width = self.photoCollectionView.frame.size.width / 3.03
-        layout.itemSize = CGSize(width: width, height: width)
-        photoCollectionView.collectionViewLayout = layout
+        // Display alert if there are no photos for selected pin
+        if pin.photos!.count == 0 {
+            AlertView.showAlert(self, title: "Attention", message: "Pin has no photos")
+        } else {
+            getCellSize()
+        }
     }
     
     // Process pin to show in mapView
@@ -56,12 +52,13 @@ class PhotoCollectionViewContoller: UIViewController {
         mapView.addAnnotation(pinAnnotation)
     }
     
-    func fetchPhotos() {
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            AlertView.showAlert(self, title: "Alert", message: "Unable to retrieve Photos\nPlease try again.")
-        }
+    func getCellSize() {
+        let space: CGFloat = 2.0
+        let dimension = (view.bounds.width - (2 * space)) / 3
+        
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.itemSize = CGSizeMake(dimension, dimension)
     }
     
     func configureCell(cell: PhotoCollectionViewCell, indexPath: NSIndexPath) {
@@ -157,7 +154,6 @@ class PhotoCollectionViewContoller: UIViewController {
         updateButton()
     }
     
-    
     // MARK: NSFetchedResultsController
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
@@ -170,10 +166,18 @@ class PhotoCollectionViewContoller: UIViewController {
         
         return fetchedResultsController
     }()
+    
+    func fetchPhotos() {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            AlertView.showAlert(self, title: "Alert", message: "Unable to retrieve Photos\nPlease try again.")
+        }
+    }
 }
 
-// MARK: UICollectionViewDelegate
 extension PhotoCollectionViewContoller: UICollectionViewDelegate {
+    // MARK: UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = photoCollectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
         
@@ -188,9 +192,8 @@ extension PhotoCollectionViewContoller: UICollectionViewDelegate {
     }
 }
 
-
-// MARK: UICollectionViewDataSource
 extension PhotoCollectionViewContoller: UICollectionViewDataSource {
+    // MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
@@ -208,8 +211,8 @@ extension PhotoCollectionViewContoller: UICollectionViewDataSource {
     }
 }
 
-// MARK: NSFetechedResultsControllerDelegate
 extension PhotoCollectionViewContoller: NSFetchedResultsControllerDelegate {
+    // MARK: NSFetechedResultsControllerDelegate
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         insertedIndexPaths = [NSIndexPath]()
         deletedIndexPaths = [NSIndexPath]()
