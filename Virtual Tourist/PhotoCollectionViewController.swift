@@ -34,6 +34,8 @@ class PhotoCollectionViewContoller: UIViewController {
         showPin()
         fetchPhotos()
         
+        mapView.userInteractionEnabled = false
+        
         // Display alert if there are no photos for selected pin
         if pin.photos!.count == 0 {
             AlertView.showAlert(self, title: "Attention", message: "Pin has no photos")
@@ -64,6 +66,7 @@ class PhotoCollectionViewContoller: UIViewController {
     func configureCell(cell: PhotoCollectionViewCell, indexPath: NSIndexPath) {
         cell.imageView.image = UIImage(named: "placeholder")
         cell.activityIndicator.startAnimating()
+
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         if photo.photo == nil {
                 FlickrClient.sharedInstance.getImageFromURL(photo, completionHandlerForPhotoData: { (data) in

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FlickrClient: NSObject {
+class FlickrClient {
     
     static let sharedInstance = FlickrClient()
     
